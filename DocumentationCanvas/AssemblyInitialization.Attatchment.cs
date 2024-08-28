@@ -35,8 +35,11 @@ namespace DocumentationCanvas
             m_Attatchments.Clear();
             m_Attatchments.AddRange(e.NewDocument.Objects.Select(o => new Attatchment(o)));
 
-            e.OldDocument.ObjectsAdded -= ObjectsAdded;
-            e.OldDocument.ObjectsDeleted -= ObjectsDeleted;
+            if (e.OldDocument != null)
+            {
+                e.OldDocument.ObjectsAdded -= ObjectsAdded;
+                e.OldDocument.ObjectsDeleted -= ObjectsDeleted;
+            }
 
             e.NewDocument.ObjectsAdded += ObjectsAdded;
             e.NewDocument.ObjectsDeleted += ObjectsDeleted;
