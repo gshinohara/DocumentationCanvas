@@ -2,6 +2,7 @@
 using Grasshopper;
 using Grasshopper.Kernel;
 using System;
+using System.Threading.Tasks;
 
 namespace DocumentationCanvas
 {
@@ -9,6 +10,8 @@ namespace DocumentationCanvas
     {
         private class LoadSelector : Dialog<GH_LoadingInstruction>
         {
+            private Label m_LabelCounting = new Label();
+
             public LoadSelector()
             {
                 Title = "Load?";
@@ -41,6 +44,7 @@ namespace DocumentationCanvas
                 };
 
                 layout.AddSeparateRow(new Label { Text = $"Do you want to load {EnvParam.PluginName} plug-in?", Wrap = WrapMode.Word });
+                layout.AddSeparateRow(m_LabelCounting);
                 layout.AddSeparateRow(button_Yes, null, button_No);
 
                 Content = layout;
@@ -51,6 +55,19 @@ namespace DocumentationCanvas
                 if (e.Cancel)
                     Result = GH_LoadingInstruction.Abort;
                 base.OnClosing(e);
+            }
+
+            protected override async void OnShown(EventArgs e)
+            {
+                base.OnShown(e);
+
+                int count = 20;
+                for (int i = 0; i < count; i++)
+                {
+                    m_LabelCounting.Text = $"If you wait for {count - i} seconds, the plug-in is loaded.";
+                    await Task.Delay(1000);
+                }
+                Close(GH_LoadingInstruction.Proceed);
             }
         }
 
