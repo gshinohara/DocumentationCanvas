@@ -1,4 +1,5 @@
-﻿using Grasshopper.GUI.Canvas;
+﻿using DocumentationCanvas.Objects.Layout;
+using Grasshopper.GUI.Canvas;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -11,7 +12,7 @@ namespace DocumentationCanvas.Objects
             get
             {
                 RectangleF objRect = Owner.LinkedObject.Attributes.Bounds;
-                RectangleF attatchRect = new RectangleF(objRect.Left, objRect.Top - 100, 200, 90);
+                RectangleF attatchRect = new RectangleF(objRect.Left, objRect.Top - 150, 260, 140);
 
                 return attatchRect;
             }
@@ -30,6 +31,9 @@ namespace DocumentationCanvas.Objects
 
             canvas.Graphics.FillPath(new SolidBrush(Color.FromArgb(200, Color.LightGray)), graphicsPath);
             canvas.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);
+
+            foreach (Content content in Owner.Contents)
+                content.Attributes.Render(canvas);
         }
     }
 }
