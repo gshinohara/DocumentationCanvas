@@ -6,11 +6,9 @@ using System.Drawing.Drawing2D;
 
 namespace DocumentationCanvas.Objects
 {
-    internal class AttatchmentAttributes
+    internal class AttatchmentAttributes : DocumentationObjectAttributes<Attatchment>
     {
-        public Attatchment Owner { get; }
-
-        public RectangleF Bounds
+        public override RectangleF Bounds
         {
             get
             {
@@ -21,13 +19,14 @@ namespace DocumentationCanvas.Objects
             }
         }
 
-        public AttatchmentAttributes(Attatchment owner)
+        public AttatchmentAttributes(Attatchment owner) : base(owner)
         {
-            Owner = owner;
         }
 
-        public void Render(GH_Canvas canvas)
+        public override void Render(GH_Canvas canvas)
         {
+            Owner.Frame.Attributes.Render(canvas);
+
             GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 2);
 
             canvas.Graphics.FillPath(new SolidBrush(Color.LightGray), graphicsPath);

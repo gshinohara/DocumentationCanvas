@@ -2,23 +2,18 @@
 
 namespace DocumentationCanvas.Objects
 {
-    internal class Attatchment
+    internal class Attatchment : DocumentationObject<IGH_DocumentObject>
     {
-        public IGH_DocumentObject LinkedObject { get; }
+        public bool IsOpen { get; set; } = false;
 
-        public bool IsOpen { get; set; }
+        public AttatchedFrame Frame { get; }
 
-        public AttatchmentAttributes Attributes { get; private set; }
-
-        public Attatchment(IGH_DocumentObject obj)
+        public Attatchment(IGH_DocumentObject obj) : base(obj)
         {
-            LinkedObject = obj;
-            IsOpen = false;
-
-            CreateAttributes();
+            Frame = new AttatchedFrame(this);
         }
 
-        private void CreateAttributes()
+        protected override void CreateAttributes()
         {
             Attributes = new AttatchmentAttributes(this);
         }
