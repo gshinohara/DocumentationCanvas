@@ -1,17 +1,22 @@
-﻿using Grasshopper.GUI;
+﻿using DocumentationCanvas.Objects;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DocumentationCanvas
 {
     public partial class AssemblyInitialization : GH_AssemblyPriority
     {
+        private List<Attatchment> m_Attatchments = new List<Attatchment>();
+
         private void AttatchmentSetUp(GH_Canvas canvas)
         {
+            canvas.DocumentChanged += InitialSetUp;
             canvas.CanvasPostPaintObjects += DrawAttatchment;
+            canvas.MouseClick += ClickAttatchment;
         }
 
         private bool IsApplyToObject(IGH_DocumentObject obj)
@@ -25,32 +30,57 @@ namespace DocumentationCanvas
             return true;
         }
 
-        private RectangleF CreateAttachmentRectangle(IGH_DocumentObject obj)
+        private void InitialSetUp(GH_Canvas sender, GH_CanvasDocumentChangedEventArgs e)
         {
-            RectangleF objRect = obj.Attributes.Bounds;
-            RectangleF attatchRect = new RectangleF(objRect.Left, objRect.Top - 15, 10, 10);
+            m_Attatchments.Clear();
+            m_Attatchments.AddRange(e.NewDocument.Objects.Select(o => new Attatchment(o)));
 
-            return attatchRect;
+            e.OldDocument.ObjectsAdded -= ObjectsAdded;
+            e.OldDocument.ObjectsDeleted -= ObjectsDeleted;
+
+            e.NewDocument.ObjectsAdded += ObjectsAdded;
+            e.NewDocument.ObjectsDeleted += ObjectsDeleted;
+        }
+
+        private void ObjectsAdded(object sender, GH_DocObjectEventArgs e)
+        {
+            foreach (IGH_DocumentObject obj in e.Objects)
+                m_Attatchments.Add(new Attatchment(obj));
+        }
+
+        private void ObjectsDeleted(object sender, GH_DocObjectEventArgs e)
+        {
+            foreach (IGH_DocumentObject obj in e.Objects)
+                m_Attatchments.Remove(m_Attatchments.FirstOrDefault(a => a.LinkedObject == obj));
         }
 
         private void DrawAttatchment(GH_Canvas sender)
         {
             if (sender.IsDocument)
             {
-                foreach (IGH_DocumentObject obj in sender.Document.Objects)
+                foreach (Attatchment attatchment in m_Attatchments)
                 {
-                    if (!IsApplyToObject(obj))
+                    if (!IsApplyToObject(attatchment.LinkedObject))
+                        continue;
+                    attatchment.Attributes.Render(sender);
+                }
+            }
+        }
+
+        private void ClickAttatchment(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && sender is GH_Canvas canvas && canvas.IsDocument)
+            {
+                foreach (Attatchment attatchment in m_Attatchments)
+                {
+                    if (!IsApplyToObject(attatchment.LinkedObject))
                         continue;
 
-                    RectangleF rectangle = CreateAttachmentRectangle(obj);
-
-                    GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(rectangle, 2);
-
-                    sender.Graphics.FillPath(new SolidBrush(Color.LightGray), graphicsPath);
-                    sender.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);
-
-                    string text_attatch = "-";
-                    sender.Graphics.DrawString(text_attatch, GH_FontServer.Standard, new SolidBrush(Color.DarkSlateGray), rectangle, GH_TextRenderingConstants.CenterCenter);
+                    if (attatchment.Attributes.Bounds.Contains(canvas.Viewport.UnprojectPoint(e.Location)))
+                    {
+                        attatchment.IsOpen ^= true;
+                        return;
+                    }
                 }
             }
         }
