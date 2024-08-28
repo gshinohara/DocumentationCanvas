@@ -1,10 +1,11 @@
 ﻿using Eto.Forms;
+using Grasshopper;
 using Grasshopper.Kernel;
 using System;
 
 namespace DocumentationCanvas
 {
-    public class AssemblyInitialization : GH_AssemblyPriority
+    public partial class AssemblyInitialization : GH_AssemblyPriority
     {
         private class LoadSelector : Dialog<GH_LoadingInstruction>
         {
@@ -56,7 +57,14 @@ namespace DocumentationCanvas
         public override GH_LoadingInstruction PriorityLoad()
         {
             LoadSelector form = new LoadSelector();
-            return form.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow);
+            GH_LoadingInstruction result = form.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow);
+
+            if (result == GH_LoadingInstruction.Proceed)
+            {
+                Instances.CanvasCreated += AttatchmentSetUp;
+            }
+
+            return result;
         }
     }
 }
