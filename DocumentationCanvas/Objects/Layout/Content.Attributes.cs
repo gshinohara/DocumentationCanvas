@@ -7,21 +7,21 @@ using System.Drawing.Drawing2D;
 
 namespace DocumentationCanvas.Objects.Layout
 {
-    internal abstract class ContentAttributes : DocumentationObjectAttributes<Content>
+    internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T> where T :Content
     {
         public override RectangleF Bounds
         {
             get
             {
                 RectangleF rect = Owner.LinkedObject.Attributes.Bounds;
-                rect.Height = 20;
-                rect.Y += Owner.LinkedObject.Contents.IndexOf(Owner) * (rect.Height + 5);
+                rect.Height = 15;
+                rect.Y += Owner.LinkedObject.Items.IndexOf(Owner) * (rect.Height + 5);
                 
                 return rect;
             }
         }
 
-        public ContentAttributes(Content owner) : base(owner)
+        public ContentAttributes(T owner) : base(owner)
         {
         }
 
@@ -29,15 +29,14 @@ namespace DocumentationCanvas.Objects.Layout
         {
             RectangleF rect_TimeStamp = Bounds;
             rect_TimeStamp.Width = 90;
-            rect_TimeStamp.Offset(10, 0);
 
             RectangleF rect_ShortDescription = Bounds;
             rect_ShortDescription.Width = 150;
-            rect_ShortDescription.Offset(100, 0);
+            rect_ShortDescription.Offset(90, 0);
 
             foreach (RectangleF rect in new List<RectangleF> { rect_TimeStamp, rect_ShortDescription })
             {
-                GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 2);
+                GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0);
 
                 canvas.Graphics.FillPath(new SolidBrush(Color.FromArgb(200, Color.LightGray)), graphicsPath);
                 canvas.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);

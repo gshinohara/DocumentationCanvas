@@ -1,4 +1,6 @@
-﻿namespace DocumentationCanvas.Objects
+﻿using System;
+
+namespace DocumentationCanvas.Objects
 {
     internal abstract class DocumentationObject<T> : IDocumentationObject
     {
@@ -11,8 +13,13 @@
             LinkedObject = obj;
 
             CreateAttributes();
+            AfterAttributesCreated();
         }
 
         protected abstract void CreateAttributes();
+
+        protected virtual void AfterAttributesCreated()
+        {
+        }
     }
 }

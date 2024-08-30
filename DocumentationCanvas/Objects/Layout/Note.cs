@@ -2,7 +2,7 @@
 {
     internal class Note : Content
     {
-        public Note(AttatchedFrame obj, string shortDescription) : base(obj, shortDescription)
+        public Note(FrameLayout obj, string shortDescription) : base(obj, shortDescription)
         {
         }
 
