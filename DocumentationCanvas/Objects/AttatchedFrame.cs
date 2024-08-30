@@ -39,6 +39,11 @@ namespace DocumentationCanvas.Objects
             ControlButtonAttributes button_Add_Attributes = button_Add.Attributes as ControlButtonAttributes;
             button_Add_Attributes.Size = new SizeF(ControlPanel.Attributes.Bounds.Height, 20);
 
+            button_Add.MouseUp += (sender, e) =>
+            {
+                TimeLine.Items.Add(new Note(TimeLine, "Comment"));
+            };
+
             ControlPanel.Items.Add(button_Add);
         }
     }

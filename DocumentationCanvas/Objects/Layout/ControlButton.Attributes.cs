@@ -12,6 +12,8 @@ namespace DocumentationCanvas.Objects.Layout
 
         public SizeF RelativeLocation { get; set; } = SizeF.Empty;
 
+        public Color Color { get; set; } = Color.FromArgb(200, Color.White);
+
         public override RectangleF Bounds
         {
             get
@@ -30,7 +32,7 @@ namespace DocumentationCanvas.Objects.Layout
         {
             GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 2);
 
-            canvas.Graphics.FillPath(new SolidBrush(Color.FromArgb(200, Color.LightGray)), graphicsPath);
+            canvas.Graphics.FillPath(new SolidBrush(Color), graphicsPath);
             canvas.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);
 
             canvas.Graphics.DrawString(Owner.Text, GH_FontServer.Standard, new SolidBrush(Color.DarkSlateGray), Bounds, GH_TextRenderingConstants.CenterCenter);
