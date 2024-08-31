@@ -17,7 +17,7 @@ namespace DocumentationCanvas
 
         private void ButtonMouseMove(object sender, MouseEventArgs e)
         {
-            ControlButton.Canvas_MouseEventArg arg = new ControlButton.Canvas_MouseEventArg(e, sender as GH_Canvas);
+            Canvas_MouseEventArg arg = new Canvas_MouseEventArg(e, sender as GH_Canvas);
 
             foreach (Attatchment attatchment in m_Attatchments)
             {
@@ -31,7 +31,7 @@ namespace DocumentationCanvas
 
         private void ButtonMouseDown(object sender, MouseEventArgs e)
         {
-            ControlButton.Canvas_MouseEventArg arg = new ControlButton.Canvas_MouseEventArg(e, sender as GH_Canvas);
+            Canvas_MouseEventArg arg = new Canvas_MouseEventArg(e, sender as GH_Canvas);
 
             foreach (Attatchment attatchment in m_Attatchments)
             {
@@ -45,7 +45,7 @@ namespace DocumentationCanvas
 
         private void ButtonMouseUp(object sender, MouseEventArgs e)
         {
-            ControlButton.Canvas_MouseEventArg arg = new ControlButton.Canvas_MouseEventArg(e, sender as GH_Canvas);
+            Canvas_MouseEventArg arg = new Canvas_MouseEventArg(e, sender as GH_Canvas);
 
             foreach (Attatchment attatchment in m_Attatchments)
             {

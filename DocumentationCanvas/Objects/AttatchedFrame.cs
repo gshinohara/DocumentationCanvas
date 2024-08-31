@@ -57,7 +57,7 @@ namespace DocumentationCanvas.Objects
             ControlPanel.Items.Add(button_Add);
         }
 
-        private void AddToTimeLine(object sender, ControlButton.Canvas_MouseEventArg e)
+        private void AddToTimeLine(object sender, Canvas_MouseEventArg e)
         {
             if (e.Button == MouseButtons.Left && sender is ControlButton button && button.Tag is AddButtonMode mode)
             {
@@ -73,7 +73,7 @@ namespace DocumentationCanvas.Objects
             }
         }
 
-        private void ChangeAddButtonMode(object sender, ControlButton.Canvas_MouseEventArg e)
+        private void ChangeAddButtonMode(object sender, Canvas_MouseEventArg e)
         {
             if (sender is ControlButton button && e.Button == MouseButtons.Right)
             {

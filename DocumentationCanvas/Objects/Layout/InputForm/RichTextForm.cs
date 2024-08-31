@@ -34,7 +34,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    frame.TimeLine.Items.Add(new Note(frame.TimeLine, textBox.Text));
+                    frame.TimeLine.Items.Add(new RichText(frame.TimeLine, textBox.Text, Markdig.Markdown.ToHtml(richText.Text)));
                     Instances.ActiveCanvas.Refresh();
                 }
 

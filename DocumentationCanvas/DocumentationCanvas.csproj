@@ -10,6 +10,7 @@
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="Markdig" Version="0.37.0" />
   </ItemGroup>
   
   <ItemGroup>

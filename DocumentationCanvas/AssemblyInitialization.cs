@@ -80,6 +80,7 @@ namespace DocumentationCanvas
             {
                 Instances.CanvasCreated += AttatchmentSetUp;
                 Instances.CanvasCreated += SetUpControlButton;
+                Instances.CanvasCreated += SetUpContentWithExtension;
             }
 
             return result;
