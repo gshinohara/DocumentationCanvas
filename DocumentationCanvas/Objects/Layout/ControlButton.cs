@@ -26,6 +26,8 @@ namespace DocumentationCanvas.Objects.Layout
 
         public string Text {  get; set; }
 
+        public object Tag {  get; set; }
+
         public event EventHandler<Canvas_MouseEventArg> MouseMove;
 
         public event EventHandler<Canvas_MouseEventArg> MouseDown;
@@ -65,11 +67,13 @@ namespace DocumentationCanvas.Objects.Layout
         public void OnMouseDown(Canvas_MouseEventArg e)
         {
             ControlButtonAttributes att = Attributes as ControlButtonAttributes;
-            if (e.Button == MouseButtons.Left && att.Bounds.Contains(e.CanvasLocation))
+            if (att.Bounds.Contains(e.CanvasLocation))
             {
-
-                att.Color = Color.FromArgb(att.Color.A, Color.DarkGray);
-                e.Canvas.Refresh();
+                if (e.Button == MouseButtons.Left)
+                {
+                    att.Color = Color.FromArgb(att.Color.A, Color.DarkGray);
+                    e.Canvas.Refresh();
+                }
 
                 MouseDown?.Invoke(this, e);
             }
@@ -81,7 +85,7 @@ namespace DocumentationCanvas.Objects.Layout
             att.Color = Color.FromArgb(att.Color.A, Color.White);
             e.Canvas.Refresh();
 
-            if (e.Button == MouseButtons.Left && att.Bounds.Contains(e.CanvasLocation))
+            if (att.Bounds.Contains(e.CanvasLocation))
                 MouseUp?.Invoke(this, e);
         }
     }
