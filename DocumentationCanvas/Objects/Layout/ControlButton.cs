@@ -8,8 +8,6 @@ namespace DocumentationCanvas.Objects.Layout
     {
         public string Text {  get; set; }
 
-        public object Tag {  get; set; }
-
         public event EventHandler<Canvas_MouseEventArg> MouseMove;
 
         public event EventHandler<Canvas_MouseEventArg> MouseDown;

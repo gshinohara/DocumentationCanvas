@@ -1,4 +1,6 @@
-﻿using Grasshopper.GUI.Canvas;
+﻿using DocumentationCanvas.Objects.Layout;
+using Grasshopper.GUI.Canvas;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -31,11 +33,8 @@ namespace DocumentationCanvas.Objects
             canvas.Graphics.FillPath(new SolidBrush(Color.FromArgb(200, Color.LightGray)), graphicsPath);
             canvas.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);
 
-            foreach (IDocumentationObject item in Owner.TimeLine.Items)
-                item.Attributes.Render(canvas);
-
-            foreach (IDocumentationObject item in Owner.ControlPanel.Items)
-                item.Attributes.Render(canvas);
+            foreach (FrameLayout layout in new List<FrameLayout> { Owner.ControlPanel, Owner.TimeLine })
+                layout.Attributes.Render(canvas);
         }
     }
 }

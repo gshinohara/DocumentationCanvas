@@ -7,7 +7,12 @@ using System.Drawing.Drawing2D;
 
 namespace DocumentationCanvas.Objects.Layout
 {
-    internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T> where T :Content
+    internal interface IContentAttributes : IDocumentationObjectAttributes
+    {
+        int GetPosition();
+    }
+
+    internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T>, IContentAttributes where T :Content
     {
         public override RectangleF Bounds
         {
@@ -15,7 +20,7 @@ namespace DocumentationCanvas.Objects.Layout
             {
                 RectangleF rect = Owner.LinkedObject.Attributes.Bounds;
                 rect.Height = 15;
-                rect.Y += Owner.LinkedObject.Items.IndexOf(Owner) * (rect.Height + 5);
+                rect.Y += GetPosition() * (rect.Height + 5);
                 
                 return rect;
             }
@@ -25,16 +30,27 @@ namespace DocumentationCanvas.Objects.Layout
         {
         }
 
+        public int GetPosition()
+        {
+            int index = Owner.LinkedObject.Items.IndexOf(Owner);
+            int relative = ((Owner.LinkedObject.Tag is int) ? (int)Owner.LinkedObject.Tag : 0);
+            return index - relative;
+        }
+
         public override void Render(GH_Canvas canvas)
         {
+            RectangleF rect_Index = Bounds;
+            rect_Index.Width = Bounds.Height;
+
             RectangleF rect_TimeStamp = Bounds;
             rect_TimeStamp.Width = 90;
+            rect_TimeStamp.Offset(rect_Index.Width, 0);
 
             RectangleF rect_ShortDescription = Bounds;
-            rect_ShortDescription.Width = 150;
-            rect_ShortDescription.Offset(90, 0);
+            rect_ShortDescription.Width = Bounds.Width - rect_Index.Width - rect_TimeStamp.Width;
+            rect_ShortDescription.Offset(Bounds.Width - rect_ShortDescription.Width, 0);
 
-            foreach (RectangleF rect in new List<RectangleF> { rect_TimeStamp, rect_ShortDescription })
+            foreach (RectangleF rect in new List<RectangleF> { rect_Index, rect_TimeStamp, rect_ShortDescription })
             {
                 GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0);
 
@@ -42,6 +58,7 @@ namespace DocumentationCanvas.Objects.Layout
                 canvas.Graphics.DrawPath(new Pen(Color.Black), graphicsPath);
             }
 
+            canvas.Graphics.DrawString((Owner.LinkedObject.Items.IndexOf(Owner) + 1).ToString(), GH_FontServer.Standard, new SolidBrush(Color.DarkSlateGray), rect_Index, GH_TextRenderingConstants.FarCenter);
             canvas.Graphics.DrawString(Owner.TimeStamp.ToString("g"), GH_FontServer.Standard, new SolidBrush(Color.DarkSlateGray), rect_TimeStamp, GH_TextRenderingConstants.NearCenter);
             canvas.Graphics.DrawString(Owner.ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.DarkSlateGray), rect_ShortDescription, GH_TextRenderingConstants.NearCenter);
         }

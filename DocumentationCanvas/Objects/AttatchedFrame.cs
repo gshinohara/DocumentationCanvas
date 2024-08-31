@@ -3,6 +3,7 @@ using DocumentationCanvas.Objects.Layout.InputForm;
 using Grasshopper.Kernel;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DocumentationCanvas.Objects
@@ -37,6 +38,7 @@ namespace DocumentationCanvas.Objects
             FrameLayoutAttributes timeLine_att = TimeLine.Attributes as FrameLayoutAttributes;
             timeLine_att.Size = Attributes.Bounds.Size - new SizeF(20, 20);
             timeLine_att.RelativeLocation = new SizeF(10, 10);
+            TimeLine.Tag = 0;
 
             Note note_Created = new Note(TimeLine, "Created");
             TimeLine.Items.Add(note_Created);
@@ -55,7 +57,23 @@ namespace DocumentationCanvas.Objects
             button_Add.MouseUp += AddToTimeLine;
             button_Add.MouseUp += ChangeAddButtonMode;
 
+            ControlButton button_ScrollUp = new ControlButton(ControlPanel, "UP");
+            ControlButtonAttributes button_ScrollUp_Attributes = button_ScrollUp.Attributes as ControlButtonAttributes;
+            button_ScrollUp_Attributes.Size = new SizeF(ControlPanel.Attributes.Bounds.Width * 0.25f, ControlPanel.Attributes.Bounds.Height);
+            button_ScrollUp_Attributes.RelativeLocation = new SizeF(ControlPanel.Attributes.Bounds.Width * 0.45f, 0);
+
+            button_ScrollUp.MouseUp += ScrollUp;
+
+            ControlButton button_ScrollDown = new ControlButton(ControlPanel, "DOWN");
+            ControlButtonAttributes button_ScrollDown_Attributes = button_ScrollDown.Attributes as ControlButtonAttributes;
+            button_ScrollDown_Attributes.Size = new SizeF(ControlPanel.Attributes.Bounds.Width * 0.25f, ControlPanel.Attributes.Bounds.Height);
+            button_ScrollDown_Attributes.RelativeLocation = new SizeF(ControlPanel.Attributes.Bounds.Width * 0.75f, 0);
+
+            button_ScrollDown.MouseUp += ScrollDown;
+
             ControlPanel.Items.Add(button_Add);
+            ControlPanel.Items.Add(button_ScrollUp);
+            ControlPanel.Items.Add(button_ScrollDown);
         }
 
         private void AddToTimeLine(object sender, Canvas_MouseEventArg e)
@@ -121,6 +139,34 @@ namespace DocumentationCanvas.Objects
                     break;
             }
             return text;
+        }
+
+        private void ScrollUp(object sender, Canvas_MouseEventArg e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                TimeLine.Tag = (int)TimeLine.Tag + 1;
+                SetScrollRelative();
+
+                e.Canvas.Refresh();
+            }
+        }
+
+        private void ScrollDown(object sender, Canvas_MouseEventArg e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                TimeLine.Tag = (int)TimeLine.Tag - 1;
+                SetScrollRelative();
+                
+                e.Canvas.Refresh();
+            }
+        }
+
+        private void SetScrollRelative()
+        {
+            int relative = (TimeLine.Tag is int) ? (int)TimeLine.Tag : 0;
+            TimeLine.Tag = TimeLine.Items.Select(i => TimeLine.Items.IndexOf(i) - relative).OrderBy(i => Math.Abs(i)).FirstOrDefault() + relative;
         }
     }
 }

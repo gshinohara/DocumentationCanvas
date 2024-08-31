@@ -26,8 +26,12 @@ namespace DocumentationCanvas.Objects
 
         public override void Render(GH_Canvas canvas)
         {
-            foreach (Content content in Owner.Items)
-                content.Attributes.Render(canvas);
+            foreach (IDocumentationObject obj in Owner.Items)
+            {
+                if (obj.Attributes is IContentAttributes att && (att.GetPosition() < 0 || att.GetPosition() >= 5))
+                    continue;
+                obj.Attributes.Render(canvas);
+            }
         }
     }
 }

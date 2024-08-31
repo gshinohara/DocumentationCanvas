@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace DocumentationCanvas.Objects
+﻿namespace DocumentationCanvas.Objects
 {
     internal abstract class DocumentationObject<T> : IDocumentationObject
     {
+        public object Tag { get; set; }
+
         public T LinkedObject { get; }
 
         public IDocumentationObjectAttributes Attributes { get; protected set; }
