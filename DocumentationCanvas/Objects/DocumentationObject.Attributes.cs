@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace DocumentationCanvas.Objects
 {
-    internal abstract class DocumentationObjectAttributes<T> : IDocumentationObjectAttributes where T : IDocumentationObject
+    public abstract class DocumentationObjectAttributes<T> : IDocumentationObjectAttributes where T : IDocumentationObject
     {
         public virtual bool IsVisible { get; set; } = false;
 

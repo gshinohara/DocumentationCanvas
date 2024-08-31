@@ -1,6 +1,6 @@
 ﻿namespace DocumentationCanvas.Objects
 {
-    internal abstract class DocumentationObject<T> : IDocumentationObject
+    public abstract class DocumentationObject<T> : IDocumentationObject
     {
         public object Tag { get; set; }
 

@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace DocumentationCanvas.Objects
 {
-    internal interface IDocumentationObjectAttributes
+    public interface IDocumentationObjectAttributes
     {
         bool IsVisible { get; set; }
 

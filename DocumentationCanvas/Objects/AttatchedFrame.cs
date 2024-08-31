@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace DocumentationCanvas.Objects
 {
-    internal class AttatchedFrame : DocumentationObject<Attatchment>
+    public class AttatchedFrame : DocumentationObject<Attatchment>
     {
         public enum AddButtonMode
         {

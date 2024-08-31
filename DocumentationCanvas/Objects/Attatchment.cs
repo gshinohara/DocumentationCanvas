@@ -2,7 +2,7 @@
 
 namespace DocumentationCanvas.Objects
 {
-    internal class Attatchment : DocumentationObject<IGH_DocumentObject>
+    public class Attatchment : DocumentationObject<IGH_DocumentObject>
     {
         private bool m_IsOpen;
 

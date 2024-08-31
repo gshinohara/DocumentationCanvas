@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace DocumentationCanvas.Objects.Layout
 {
-    internal class FrameLayout : DocumentationObject<AttatchedFrame>
+    public class FrameLayout : DocumentationObject<AttatchedFrame>
     {
         public List<IDocumentationObject> Items { get; } = new List<IDocumentationObject>();
 

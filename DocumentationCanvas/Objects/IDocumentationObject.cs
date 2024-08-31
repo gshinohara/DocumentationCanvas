@@ -1,6 +1,6 @@
 ﻿namespace DocumentationCanvas.Objects
 {
-    internal interface IDocumentationObject
+    public interface IDocumentationObject
     {
          IDocumentationObjectAttributes Attributes { get; }
     }
