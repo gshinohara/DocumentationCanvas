@@ -1,5 +1,4 @@
-﻿using Grasshopper.GUI.Canvas;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,24 +6,9 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class ControlButton : DocumentationObject<FrameLayout>
     {
-        public class Canvas_MouseEventArg : MouseEventArgs
-        {
-            public GH_Canvas Canvas { get; set; }
-
-            public PointF CanvasLocation => Canvas.Viewport.UnprojectPoint(Location);
-
-            public Canvas_MouseEventArg(MouseButtons button, int clicks, int x, int y, int delta, GH_Canvas canvas) : base(button, clicks, x, y, delta)
-            {
-                Canvas = canvas;
-            }
-
-            public Canvas_MouseEventArg(MouseEventArgs arg, GH_Canvas canvas) : base(arg.Button, arg.Clicks, arg.X, arg.Y, arg.Delta)
-            {
-                Canvas = canvas;
-            }
-        }
-
         public string Text {  get; set; }
+
+        public object Tag {  get; set; }
 
         public event EventHandler<Canvas_MouseEventArg> MouseMove;
 
@@ -65,11 +49,13 @@ namespace DocumentationCanvas.Objects.Layout
         public void OnMouseDown(Canvas_MouseEventArg e)
         {
             ControlButtonAttributes att = Attributes as ControlButtonAttributes;
-            if (e.Button == MouseButtons.Left && att.Bounds.Contains(e.CanvasLocation))
+            if (att.Bounds.Contains(e.CanvasLocation))
             {
-
-                att.Color = Color.FromArgb(att.Color.A, Color.DarkGray);
-                e.Canvas.Refresh();
+                if (e.Button == MouseButtons.Left)
+                {
+                    att.Color = Color.FromArgb(att.Color.A, Color.DarkGray);
+                    e.Canvas.Refresh();
+                }
 
                 MouseDown?.Invoke(this, e);
             }
@@ -81,7 +67,7 @@ namespace DocumentationCanvas.Objects.Layout
             att.Color = Color.FromArgb(att.Color.A, Color.White);
             e.Canvas.Refresh();
 
-            if (e.Button == MouseButtons.Left && att.Bounds.Contains(e.CanvasLocation))
+            if (att.Bounds.Contains(e.CanvasLocation))
                 MouseUp?.Invoke(this, e);
         }
     }
