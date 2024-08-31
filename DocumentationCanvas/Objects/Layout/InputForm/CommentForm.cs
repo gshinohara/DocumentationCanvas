@@ -29,7 +29,9 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    frame.TimeLine.Items.Add(new Note(frame.TimeLine, textBox.Text));
+                    Note note = new Note(frame.TimeLine, textBox.Text);
+                    note.Attributes.IsVisible = true;
+                    frame.TimeLine.Items.Add(note);
                     Instances.ActiveCanvas.Refresh();
                 }
 

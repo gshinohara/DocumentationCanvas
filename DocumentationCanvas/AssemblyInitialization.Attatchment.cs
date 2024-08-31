@@ -33,7 +33,8 @@ namespace DocumentationCanvas
         private void InitialSetUp(GH_Canvas sender, GH_CanvasDocumentChangedEventArgs e)
         {
             m_Attatchments.Clear();
-            m_Attatchments.AddRange(e.NewDocument.Objects.Select(o => new Attatchment(o)));
+            foreach (IGH_DocumentObject obj in e.NewDocument.Objects)
+                m_Attatchments.Add(new Attatchment(obj));
 
             if (e.OldDocument != null)
             {
@@ -48,7 +49,12 @@ namespace DocumentationCanvas
         private void ObjectsAdded(object sender, GH_DocObjectEventArgs e)
         {
             foreach (IGH_DocumentObject obj in e.Objects)
+            {
+                if (!IsApplyToObject(obj))
+                    continue;
+
                 m_Attatchments.Add(new Attatchment(obj));
+            }
         }
 
         private void ObjectsDeleted(object sender, GH_DocObjectEventArgs e)
@@ -62,11 +68,7 @@ namespace DocumentationCanvas
             if (sender.IsDocument)
             {
                 foreach (Attatchment attatchment in m_Attatchments)
-                {
-                    if (!IsApplyToObject(attatchment.LinkedObject))
-                        continue;
-                    attatchment.Attributes.Render(sender);
-                }
+                    attatchment.Attributes.ExpirePreview(sender);
             }
         }
 
@@ -76,9 +78,6 @@ namespace DocumentationCanvas
             {
                 foreach (Attatchment attatchment in m_Attatchments)
                 {
-                    if (!IsApplyToObject(attatchment.LinkedObject))
-                        continue;
-
                     if (attatchment.Attributes.Bounds.Contains(canvas.Viewport.UnprojectPoint(e.Location)))
                     {
                         attatchment.IsOpen ^= true;

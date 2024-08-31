@@ -12,6 +12,9 @@ namespace DocumentationCanvas.Objects.Layout
 
         public void OnMouseDown(Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (Attributes.Bounds.Contains(e.CanvasLocation))
                 MouseDown?.Invoke(this, e);
         }

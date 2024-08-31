@@ -25,7 +25,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
 
             TextBox textBox = new TextBox { PlaceholderText = "Write a short description." };
 
-            RichTextArea richText = new RichTextArea
+            RichTextArea richTextArea = new RichTextArea
             {
                 Size = new Eto.Drawing.Size(300,100),
             };
@@ -34,7 +34,9 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    frame.TimeLine.Items.Add(new RichText(frame.TimeLine, textBox.Text, Markdig.Markdown.ToHtml(richText.Text)));
+                    RichText richText = new RichText(frame.TimeLine, textBox.Text, Markdig.Markdown.ToHtml(richTextArea.Text));
+                    richText.Attributes.IsVisible = true;
+                    frame.TimeLine.Items.Add(richText);
                     Instances.ActiveCanvas.Refresh();
                 }
 
@@ -54,7 +56,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             };
 
             layout.AddSeparateRow(textBox);
-            layout.AddSeparateRow(richText);
+            layout.AddSeparateRow(richTextArea);
             layout.AddSeparateRow(null,button_OK, null, button_Cancel,null);
 
             Content = layout;

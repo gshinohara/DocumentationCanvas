@@ -8,6 +8,16 @@ namespace DocumentationCanvas.Objects
 {
     internal class AttatchmentAttributes : DocumentationObjectAttributes<Attatchment>
     {
+        public override bool IsVisible
+        {
+            get => base.IsVisible;
+            set
+            {
+                base.IsVisible = value;
+                Owner.Frame.Attributes.IsVisible = value;
+            }
+        }
+
         public override RectangleF Bounds
         {
             get
@@ -25,7 +35,7 @@ namespace DocumentationCanvas.Objects
 
         public override void Render(GH_Canvas canvas)
         {
-            Owner.Frame.Attributes.Render(canvas);
+            Owner.Frame.Attributes.ExpirePreview(canvas);
 
             GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 2);
 

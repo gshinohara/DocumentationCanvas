@@ -15,6 +15,9 @@ namespace DocumentationCanvas.Objects.Layout
 
         private void DisplayImage(object sender, Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (e.Button == System.Windows.Forms.MouseButtons.Left && Attributes.Bounds.Contains(e.CanvasLocation))
             {
                 Label label = new Label { Text = ShortDescription };

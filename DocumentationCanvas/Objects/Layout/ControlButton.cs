@@ -26,6 +26,9 @@ namespace DocumentationCanvas.Objects.Layout
 
         public void OnMouseMove(Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             ControlButtonAttributes att = Attributes as ControlButtonAttributes;
             Color color;
             if (e.Button == MouseButtons.Left)
@@ -46,6 +49,9 @@ namespace DocumentationCanvas.Objects.Layout
 
         public void OnMouseDown(Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             ControlButtonAttributes att = Attributes as ControlButtonAttributes;
             if (att.Bounds.Contains(e.CanvasLocation))
             {
@@ -61,6 +67,9 @@ namespace DocumentationCanvas.Objects.Layout
 
         public void OnMouseUp(Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             ControlButtonAttributes att = Attributes as ControlButtonAttributes;
             att.Color = Color.FromArgb(att.Color.A, Color.White);
             e.Canvas.Refresh();

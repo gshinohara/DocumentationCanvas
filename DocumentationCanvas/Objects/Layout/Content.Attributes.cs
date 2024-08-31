@@ -14,6 +14,16 @@ namespace DocumentationCanvas.Objects.Layout
 
     internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T>, IContentAttributes where T :Content
     {
+        public override bool IsVisible
+        {
+            get
+            {
+                IsVisible = GetPosition() >= 0 && GetPosition() < 5;
+                return base.IsVisible;
+            }
+            set => base.IsVisible = value;
+        }
+
         public override RectangleF Bounds
         {
             get
