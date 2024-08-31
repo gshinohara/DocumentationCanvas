@@ -1,4 +1,5 @@
 ﻿using DocumentationCanvas.Objects.Layout;
+using DocumentationCanvas.Objects.Layout.InputForm;
 using System.Drawing;
 
 namespace DocumentationCanvas.Objects
@@ -39,12 +40,15 @@ namespace DocumentationCanvas.Objects
             ControlButtonAttributes button_Add_Attributes = button_Add.Attributes as ControlButtonAttributes;
             button_Add_Attributes.Size = new SizeF(ControlPanel.Attributes.Bounds.Height, 20);
 
-            button_Add.MouseUp += (sender, e) =>
-            {
-                TimeLine.Items.Add(new Note(TimeLine, "Comment"));
-            };
+            button_Add.MouseUp += AddToTimeLine;
 
             ControlPanel.Items.Add(button_Add);
+        }
+
+        private void AddToTimeLine(object sender, ControlButton.Canvas_MouseEventArg e)
+        {
+            CommentForm commentForm = new CommentForm(this);
+            commentForm.Show();
         }
     }
 }
