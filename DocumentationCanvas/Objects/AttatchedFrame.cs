@@ -13,6 +13,7 @@ namespace DocumentationCanvas.Objects
         {
             Comment,
             RichText,
+            DisplayCapture,
         }
 
         public FrameLayout TimeLine { get; private set; }
@@ -69,6 +70,9 @@ namespace DocumentationCanvas.Objects
                     case AddButtonMode.RichText:
                         new RichTextForm(this).Show();
                         break;
+                    case AddButtonMode.DisplayCapture:
+                        new CaptureForm(this).Show();
+                        break;
                 }
             }
         }
@@ -108,6 +112,9 @@ namespace DocumentationCanvas.Objects
                     break;
                 case AddButtonMode.RichText:
                     text = "Long Comment";
+                    break;
+                case AddButtonMode.DisplayCapture:
+                    text = "Image";
                     break;
                 default:
                     text = string.Empty;
