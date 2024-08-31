@@ -2,6 +2,7 @@
 using DocumentationCanvas.Objects.Layout.InputForm;
 using Grasshopper.Kernel;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,6 +24,11 @@ namespace DocumentationCanvas.Objects
 
         public AttatchedFrame(Attatchment obj) : base(obj)
         {
+        }
+
+        public List<FrameLayout> GetAllLayouts()
+        {
+            return new List<FrameLayout> { ControlPanel, TimeLine };
         }
 
         protected override void CreateAttributes()
@@ -78,6 +84,9 @@ namespace DocumentationCanvas.Objects
 
         private void AddToTimeLine(object sender, Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (e.Button == MouseButtons.Left && sender is ControlButton button && button.Tag is AddButtonMode mode)
             {
                 switch (mode)
@@ -97,6 +106,9 @@ namespace DocumentationCanvas.Objects
 
         private void ChangeAddButtonMode(object sender, Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (sender is ControlButton button && e.Button == MouseButtons.Right)
             {
                 ContextMenuStrip menu = new ContextMenuStrip();
@@ -143,6 +155,9 @@ namespace DocumentationCanvas.Objects
 
         private void ScrollUp(object sender, Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (e.Button == MouseButtons.Left)
             {
                 TimeLine.Tag = (int)TimeLine.Tag + 1;
@@ -154,6 +169,9 @@ namespace DocumentationCanvas.Objects
 
         private void ScrollDown(object sender, Canvas_MouseEventArg e)
         {
+            if (!Attributes.IsVisible)
+                return;
+
             if (e.Button == MouseButtons.Left)
             {
                 TimeLine.Tag = (int)TimeLine.Tag - 1;
