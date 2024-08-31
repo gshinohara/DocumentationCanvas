@@ -2,5 +2,6 @@
 {
     internal interface IDocumentationObject
     {
+         IDocumentationObjectAttributes Attributes { get; }
     }
 }
