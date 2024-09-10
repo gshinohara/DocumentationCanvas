@@ -1,10 +1,9 @@
-﻿using DocumentationCanvas.Objects.Layout;
-using Grasshopper.GUI.Canvas;
+﻿using Grasshopper.GUI.Canvas;
 using System.Drawing;
 
-namespace DocumentationCanvas.Objects
+namespace DocumentationCanvas.Objects.Layout
 {
-    internal class FrameLayoutAttributes: DocumentationObjectAttributes<FrameLayout>
+    internal class FrameLayoutAttributes : DocumentationObjectAttributes<FrameLayout>
     {
         public override bool IsVisible
         {

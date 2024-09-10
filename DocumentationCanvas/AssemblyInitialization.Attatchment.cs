@@ -52,7 +52,6 @@ namespace DocumentationCanvas
             {
                 if (!IsApplyToObject(obj))
                     continue;
-
                 m_Attatchments.Add(new Attatchment(obj));
             }
         }
@@ -60,7 +59,11 @@ namespace DocumentationCanvas
         private void ObjectsDeleted(object sender, GH_DocObjectEventArgs e)
         {
             foreach (IGH_DocumentObject obj in e.Objects)
+            {
+                if (!IsApplyToObject(obj))
+                    continue;
                 m_Attatchments.Remove(m_Attatchments.FirstOrDefault(a => a.LinkedObject == obj));
+            }
         }
 
         private void DrawAttatchment(GH_Canvas sender)

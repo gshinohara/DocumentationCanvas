@@ -1,26 +1,17 @@
-﻿using CustomGrip;
-using DocumentationCanvas.Objects;
+﻿using CustomGrip.Sources;
 using Grasshopper.GUI.Canvas;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace DocumentationCanvas.TimeLineDashboard
 {
-    public class DisplayObjectAttributes : WiringObjectAttributes<Attatchment>
+    public class DisplayObjectAttributes : WiringObjectAttributes<DisplayTarget>
     {
-        public DisplayObjectAttributes(DisplayObject owner) : base(owner, CreateGrips())
+        public DisplayObjectAttributes(DisplayObject owner) : base(owner)
         {
-        }
-
-        private static List<DisplayObjectInputGrip> CreateGrips()
-        {
-            DisplayObjectInputGrip grip1 = new DisplayObjectInputGrip() { Name = "1" };
-            DisplayObjectInputGrip grip2 = new DisplayObjectInputGrip() { Name= "2" };
-
-            return new List<DisplayObjectInputGrip> { grip1, grip2 };
+            DisplayObjectInputGrip grip1 = new DisplayObjectInputGrip(this) { Name = "1" };
+            DisplayObjectInputGrip grip2 = new DisplayObjectInputGrip(this) { Name = "2" };
         }
 
         protected override void Layout()
