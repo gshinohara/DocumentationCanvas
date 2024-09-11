@@ -100,6 +100,7 @@ namespace DocumentationCanvas
             {
                 case GH_Scribble _:
                 case GH_Markup _:
+                case DisplayObject _:
                     return false;
             }
             return true;
