@@ -49,7 +49,7 @@ namespace DocumentationCanvas.TimeLineDashboard
             {
                 case GH_CanvasChannel.Objects:
                     GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 3);
-                    graphics.FillPath(new SolidBrush(Color.WhiteSmoke), graphicsPath);
+                    graphics.FillPath(new SolidBrush(Selected ? Color.PaleGreen : Color.GhostWhite), graphicsPath);
                     graphics.DrawPath(new Pen(Color.Black), graphicsPath);
 
                     foreach (Grip grip in MyInputGrips)
