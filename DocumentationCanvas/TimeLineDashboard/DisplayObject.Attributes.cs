@@ -2,7 +2,6 @@
 using Grasshopper.GUI.Canvas;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 
 namespace DocumentationCanvas.TimeLineDashboard
 {
@@ -10,25 +9,30 @@ namespace DocumentationCanvas.TimeLineDashboard
     {
         public DisplayObjectAttributes(DisplayObject owner) : base(owner)
         {
-            DisplayObjectInputGrip grip1 = new DisplayObjectInputGrip(this) { Name = "1" };
-            DisplayObjectInputGrip grip2 = new DisplayObjectInputGrip(this) { Name = "2" };
+            RectangleF rect = Bounds;
+            rect.Size = new Size(400, 500);
+            Bounds = rect;
+
+            new DisplayObjectInputGrip(this) { Direction = new SizeF(0, 50) };
         }
+
+        public void SetGripPosition()
+        {
+            for (int i = 0; i < MyInputGrips.Count; i++)
+            {
+                PointF p = MyInputGrips[i].Position;
+                p.X = Bounds.Left + Bounds.Width * i / MyInputGrips.Count + Bounds.Width / MyInputGrips.Count / 2;
+                p.Y = Bounds.Bottom;
+                MyInputGrips[i].Position = p;
+            }
+        }
+
 
         protected override void Layout()
         {
             base.Layout();
 
-            RectangleF rect = Bounds;
-            rect.Size = new Size(400, 500);
-            Bounds = rect;
-
-            DisplayObjectInputGrip grip1 = MyInputGrips.FirstOrDefault(g => g.Name == "1") as DisplayObjectInputGrip;
-            grip1.Position = new PointF(Bounds.Left + 50, Bounds.Bottom);
-            grip1.Direction = new SizeF(0, 50);
-
-            DisplayObjectInputGrip grip2 = MyInputGrips.FirstOrDefault(g => g.Name == "2") as DisplayObjectInputGrip;
-            grip2.Position = new PointF(Bounds.Right - 50, Bounds.Bottom);
-            grip2.Direction = new SizeF(0, 50);
+            SetGripPosition();
         }
 
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)

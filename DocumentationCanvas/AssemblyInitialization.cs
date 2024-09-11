@@ -79,6 +79,7 @@ namespace DocumentationCanvas
             if (result == GH_LoadingInstruction.Proceed)
             {
                 Instances.CanvasCreated += AttatchmentSetUp;
+                Instances.CanvasCreated += SetUpTimeLineDashboard;
             }
 
             return result;
