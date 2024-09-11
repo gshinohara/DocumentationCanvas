@@ -8,12 +8,14 @@ namespace DocumentationCanvas.TimeLineDashboard
 {
     internal class DisplayTargetCollection : TargetCollection<DisplayTarget>
     {
+        private List<DisplayTarget> m_Targets { get; } = new List<DisplayTarget>();
+
         protected override IEnumerable<DisplayTarget> Targets
         {
             get
             {
-                foreach (IGH_DocumentObject obj in Document.Objects)
-                    yield return new DisplayTarget(new AttatchmentObject(obj));
+                foreach (DisplayTarget target in m_Targets)
+                    yield return target;
             }
         }
 
@@ -21,11 +23,26 @@ namespace DocumentationCanvas.TimeLineDashboard
         {
         }
 
+        public void Add(DisplayTarget target)
+        {
+            m_Targets.Add(target);
+        }
+
+        public void AddRange(IEnumerable<DisplayTarget> targets)
+        {
+            m_Targets.AddRange(targets);
+        }
+
+        public void Remove(DisplayTarget target)
+        {
+            m_Targets.Remove(target);
+        }
+
         public override DisplayTarget Find(PointF point)
         {
             foreach(DisplayTarget target in this)
             {
-                if (target.Owner.AttatchedFrame.Attributes.Bounds.Contains(point)) 
+                if (target.Owner.IsValid && target.Owner.ActivationButton.IsOpen && target.Owner.AttatchedFrame.Attributes.Bounds.Contains(point))
                     return target;
             }
             return null;
