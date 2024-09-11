@@ -1,6 +1,10 @@
 ﻿using CustomGrip.Grips;
 using CustomGrip.Sources;
+using DocumentationCanvas.Objects.Layout;
+using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
+using Grasshopper.Kernel;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -56,6 +60,32 @@ namespace DocumentationCanvas.TimeLineDashboard
                         byte[] bytes = { (byte)PathPointType.Line, (byte)PathPointType.Line };
                         GraphicsPath straight = new GraphicsPath(points, bytes);
                         graphics.DrawPath(new Pen(Color.Black), straight);
+                    }
+
+                    foreach (Grip grip in MyInputGrips)
+                    {
+                        List<Content> contents = new List<Content>();
+                        foreach (DisplayTarget target in (grip as DisplayObjectInputGrip).TargetObjects)
+                        {
+                            foreach (var item in target.Owner.AttatchedFrame.TimeLine.Items)
+                            {
+                                if (item is Content content)
+                                    contents.Add(content);
+                            }
+                        }
+
+                        contents.Sort((a, b) => (a.TimeStamp - b.TimeStamp).Milliseconds);
+
+                        for (int i = 0; i < contents.Count; i++)
+                        {
+                            RectangleF rect = new RectangleF { Width = Bounds.Width / MyInputGrips.Count, Height = 20, Location = grip.Position };
+                            rect.Y -= Bounds.Height - 5 - (rect.Height + 5) * i;
+                            rect.X -= rect.Width / 2;
+                            rect.Inflate(-5, 0);
+
+                            graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
+                            graphics.DrawString(contents[i].ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect, GH_TextRenderingConstants.CenterCenter);
+                        }
                     }
 
                     break;
