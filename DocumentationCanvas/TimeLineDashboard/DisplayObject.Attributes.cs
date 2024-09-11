@@ -16,7 +16,7 @@ namespace DocumentationCanvas.TimeLineDashboard
         public DisplayObjectAttributes(DisplayObject owner) : base(owner)
         {
             RectangleF rect = Bounds;
-            rect.Size = new Size(400, 500);
+            rect.Size = new Size(300, 200);
             Bounds = rect;
 
             new DisplayObjectInputGrip(this) { Direction = new SizeF(0, 50) };
@@ -49,7 +49,7 @@ namespace DocumentationCanvas.TimeLineDashboard
             {
                 case GH_CanvasChannel.Objects:
                     GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 3);
-                    graphics.FillPath(new SolidBrush(Color.Gray), graphicsPath);
+                    graphics.FillPath(new SolidBrush(Color.WhiteSmoke), graphicsPath);
                     graphics.DrawPath(new Pen(Color.Black), graphicsPath);
 
                     foreach (Grip grip in MyInputGrips)
@@ -82,9 +82,16 @@ namespace DocumentationCanvas.TimeLineDashboard
                             rect.Y -= Bounds.Height - 5 - (rect.Height + 5) * i;
                             rect.X -= rect.Width / 2;
                             rect.Inflate(-5, 0);
-
                             graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
-                            graphics.DrawString(contents[i].ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect, GH_TextRenderingConstants.CenterCenter);
+
+                            RectangleF rect_NickName = rect;
+                            rect_NickName.Width = 80;
+                            graphics.DrawString(contents[i].LinkedObject.LinkedObject.LinkedObject.LinkedObject.NickName, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_NickName, GH_TextRenderingConstants.NearCenter);
+
+                            RectangleF rect_Desc = rect;
+                            rect_Desc.Width -= rect_NickName.Width;
+                            rect_Desc.X = rect_NickName.Right;
+                            graphics.DrawString(contents[i].ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_Desc, GH_TextRenderingConstants.NearCenter);
                         }
                     }
 
