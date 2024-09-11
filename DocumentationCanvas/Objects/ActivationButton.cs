@@ -1,33 +1,17 @@
-﻿using Grasshopper.Kernel;
-
-namespace DocumentationCanvas.Objects
+﻿namespace DocumentationCanvas.Objects
 {
-    public class Attatchment : DocumentationObject<IGH_DocumentObject>
+    public class ActivationButton : DocumentationObject<AttatchmentObject>
     {
-        private bool m_IsOpen;
+        public bool IsOpen { get; set; }
 
-        public bool IsOpen
+        public ActivationButton(AttatchmentObject obj) : base(obj)
         {
-            get => m_IsOpen;
-            set
-            {
-                m_IsOpen = value;
-                Frame.Attributes.IsVisible = value;
-            }
-        }
-
-        public AttatchedFrame Frame { get; }
-
-        public Attatchment(IGH_DocumentObject obj) : base(obj)
-        {
-            Frame = new AttatchedFrame(this);
-            Attributes.IsVisible = true;
             IsOpen = false;
         }
 
         protected override void CreateAttributes()
         {
-            Attributes = new AttatchmentAttributes(this);
+            Attributes = new ActivationButtonAttributes(this);
         }
     }
 }

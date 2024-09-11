@@ -13,7 +13,7 @@ namespace DocumentationCanvas.TimeLineDashboard
             get
             {
                 foreach (IGH_DocumentObject obj in Document.Objects)
-                    yield return new DisplayTarget(new Attatchment(obj));
+                    yield return new DisplayTarget(new AttatchmentObject(obj));
             }
         }
 
@@ -25,7 +25,7 @@ namespace DocumentationCanvas.TimeLineDashboard
         {
             foreach(DisplayTarget target in this)
             {
-                if (target.Owner.Frame.Attributes.Bounds.Contains(point)) 
+                if (target.Owner.AttatchedFrame.Attributes.Bounds.Contains(point)) 
                     return target;
             }
             return null;

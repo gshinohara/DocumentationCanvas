@@ -28,7 +28,7 @@ namespace DocumentationCanvas.Objects.Layout
         {
         }
 
-        public override void Render(GH_Canvas canvas)
+        protected override void Render(GH_Canvas canvas)
         {
             GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 2);
 

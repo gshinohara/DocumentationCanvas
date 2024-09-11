@@ -34,8 +34,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    RichText richText = new RichText(frame.TimeLine, textBox.Text, Markdig.Markdown.ToHtml(richTextArea.Text));
-                    richText.Attributes.IsVisible = true;
+                    RichText richText = new RichText(frame.TimeLine, textBox.Text, Markdig.Markdown.ToHtml(richTextArea.Text)) { IsValid = frame.IsValid };
                     frame.TimeLine.Items.Add(richText);
                     Instances.ActiveCanvas.Refresh();
                 }

@@ -11,7 +11,7 @@ namespace DocumentationCanvas.Objects.Layout
         {
         }
 
-        public override void Render(GH_Canvas canvas)
+        protected override void Render(GH_Canvas canvas)
         {
             base.Render(canvas);
 

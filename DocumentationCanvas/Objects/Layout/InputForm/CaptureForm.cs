@@ -31,8 +31,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    DisplayCapture displayCapture = new DisplayCapture(frame.TimeLine, textBox.Text, image);
-                    displayCapture.Attributes.IsVisible = true;
+                    DisplayCapture displayCapture = new DisplayCapture(frame.TimeLine, textBox.Text, image) { IsValid = frame.IsValid };
                     frame.TimeLine.Items.Add(displayCapture);
                     Instances.ActiveCanvas.Refresh();
                 }

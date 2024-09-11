@@ -4,12 +4,12 @@ using System.Drawing;
 
 namespace DocumentationCanvas.Objects
 {
-    public abstract class DocumentationObjectAttributes<T> : IDocumentationObjectAttributes where T : IDocumentationObject
+
+    internal abstract class DocumentationObjectAttributes<T> : IDocumentationObjectAttributes where T : IDocumentationObject
     {
+        public event EventHandler<Canvas_MouseEventArg> MouseUp;
 
-        public EventHandler<Canvas_MouseEventArg> MouseClick;
-
-        public virtual bool IsVisible { get; set; } = false;
+        public event PostPaintEventHandler PostPaint;
 
         public T Owner { get; }
 
@@ -20,20 +20,27 @@ namespace DocumentationCanvas.Objects
             Owner = owner;
         }
 
-        public abstract bool IsPickRegion(PointF point);
+        public virtual bool IsPickRegion(PointF point)
+        {
+            return Bounds.Contains(point);
+        }
 
         public void ExpirePreview(GH_Canvas canvas)
         {
-            if (IsVisible)
+            if (Owner.IsValid)
                 Render(canvas);
+            PostPaint?.Invoke(canvas);
         }
 
-        public abstract void Render(GH_Canvas canvas);
+        protected abstract void Render(GH_Canvas canvas);
 
-        public void OnMouseClick(Canvas_MouseEventArg e)
+        public void OnMouseUp(Canvas_MouseEventArg e)
         {
-            if (IsPickRegion(e.CanvasLocation))
-                MouseClick?.Invoke(this, e);
+            if (Owner.IsValid && IsPickRegion(e.CanvasLocation))
+            {
+                MouseUp?.Invoke(this, e);
+                e.Canvas.Refresh();
+            }
         }
     }
 }

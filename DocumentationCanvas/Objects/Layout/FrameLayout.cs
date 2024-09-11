@@ -9,6 +9,23 @@ namespace DocumentationCanvas.Objects.Layout
 
         public FrameLayout(AttatchedFrame obj) : base(obj)
         {
+            PostValidityChanged += () =>
+            {
+                foreach (IDocumentationObject item in Items)
+                    item.IsValid = IsValid;
+            };
+
+            Attributes.MouseUp += (sender, e) =>
+            {
+                foreach (IDocumentationObject item in Items)
+                    item.Attributes.OnMouseUp(e);
+            };
+
+            Attributes.PostPaint += canvas =>
+            {
+                foreach (IDocumentationObject item in Items)
+                    item.Attributes.ExpirePreview(canvas);
+            };
         }
 
         protected override void CreateAttributes()
