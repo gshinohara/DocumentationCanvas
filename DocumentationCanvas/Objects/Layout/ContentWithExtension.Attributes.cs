@@ -9,9 +9,12 @@ namespace DocumentationCanvas.Objects.Layout
     {
         public ContentWithExtensionAttributes(T owner) :base(owner)
         {
+            MouseUp += Expand;
         }
 
-        public override void Render(GH_Canvas canvas)
+        protected abstract void Expand(object sender, Canvas_MouseEventArg e);
+
+        protected override void Render(GH_Canvas canvas)
         {
             base.Render(canvas);
 

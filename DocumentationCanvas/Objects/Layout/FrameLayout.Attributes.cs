@@ -5,18 +5,6 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class FrameLayoutAttributes : DocumentationObjectAttributes<FrameLayout>
     {
-        public override bool IsVisible
-        {
-            get => base.IsVisible;
-            set
-            {
-                base.IsVisible = value;
-
-                foreach (IDocumentationObject item in Owner.Items)
-                    item.Attributes.IsVisible = value;
-            }
-        }
-
         public SizeF Size { get; set; } = SizeF.Empty;
 
         public SizeF RelativeLocation { get; set; } = SizeF.Empty;
@@ -35,10 +23,8 @@ namespace DocumentationCanvas.Objects.Layout
         {
         }
 
-        public override void Render(GH_Canvas canvas)
+        protected override void Render(GH_Canvas canvas)
         {
-            foreach (IDocumentationObject obj in Owner.Items)
-                obj.Attributes.ExpirePreview(canvas);
         }
     }
 }

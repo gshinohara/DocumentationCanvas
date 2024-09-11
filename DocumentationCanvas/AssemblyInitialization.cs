@@ -79,8 +79,6 @@ namespace DocumentationCanvas
             if (result == GH_LoadingInstruction.Proceed)
             {
                 Instances.CanvasCreated += AttatchmentSetUp;
-                Instances.CanvasCreated += SetUpControlButton;
-                Instances.CanvasCreated += SetUpContentWithExtension;
             }
 
             return result;

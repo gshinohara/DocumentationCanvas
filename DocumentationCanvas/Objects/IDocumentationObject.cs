@@ -2,6 +2,10 @@
 {
     public interface IDocumentationObject
     {
-         IDocumentationObjectAttributes Attributes { get; }
+        event PostValidityChangedEventHandler PostValidityChanged;
+
+        bool IsValid { get; set; }
+
+        IDocumentationObjectAttributes Attributes { get; }
     }
 }
