@@ -84,13 +84,13 @@ namespace DocumentationCanvas.TimeLineDashboard
                             rect.Inflate(-5, 0);
                             graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
 
-                            RectangleF rect_NickName = rect;
-                            rect_NickName.Width = 80;
-                            graphics.DrawString(contents[i].LinkedObject.LinkedObject.LinkedObject.LinkedObject.NickName, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_NickName, GH_TextRenderingConstants.NearCenter);
+                            RectangleF rect_Icon = rect;
+                            rect_Icon.Width = 80;
+                            graphics.DrawImage(contents[i].LinkedObject.LinkedObject.LinkedObject.LinkedObject.Icon_24x24, rect_Icon);
 
                             RectangleF rect_Desc = rect;
-                            rect_Desc.Width -= rect_NickName.Width;
-                            rect_Desc.X = rect_NickName.Right;
+                            rect_Desc.Width -= rect_Icon.Width;
+                            rect_Desc.X = rect_Icon.Right;
                             graphics.DrawString(contents[i].ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_Desc, GH_TextRenderingConstants.NearCenter);
                         }
                     }
