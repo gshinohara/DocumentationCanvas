@@ -42,7 +42,9 @@ namespace DocumentationCanvas.TimeLineDashboard
         {
             foreach(DisplayTarget target in this)
             {
-                if (target.Owner.IsValid && target.Owner.ActivationButton.IsOpen && target.Owner.AttatchedFrame.Attributes.Bounds.Contains(point))
+                if (target.Owner.IsValid && target.Owner.ActivationButton.IsOpen && target.Owner.Attributes.Bounds.Contains(point))
+                    return target;
+                else if (target.Owner.IsValid && !target.Owner.ActivationButton.IsOpen && target.Owner.ActivationButton.Attributes.Bounds.Contains(point))
                     return target;
             }
             return null;

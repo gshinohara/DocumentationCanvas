@@ -13,7 +13,10 @@ namespace DocumentationCanvas.TimeLineDashboard
 
         public override RectangleF GetBounds()
         {
-            return Owner.AttatchedFrame.Attributes.Bounds;
+            if (Owner.ActivationButton.IsOpen)
+                return Owner.AttatchedFrame.Attributes.Bounds;
+            else
+                return Owner.ActivationButton.Attributes.Bounds;
         }
 
         public override Grip GetGrip()
