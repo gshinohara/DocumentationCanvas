@@ -16,7 +16,7 @@ namespace DocumentationCanvas.TimeLineDashboard
         public DisplayObjectAttributes(DisplayObject owner) : base(owner)
         {
             RectangleF rect = Bounds;
-            rect.Size = new Size(300, 200);
+            rect.Size = new Size(150, 300);
             Bounds = rect;
 
             new DisplayObjectInputGrip(this) { Direction = new SizeF(0, 50) };
@@ -85,7 +85,7 @@ namespace DocumentationCanvas.TimeLineDashboard
                             graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
 
                             RectangleF rect_Icon = rect;
-                            rect_Icon.Width = 80;
+                            rect_Icon.Width = rect.Height;
                             graphics.DrawImage(contents[i].LinkedObject.LinkedObject.LinkedObject.LinkedObject.Icon_24x24, rect_Icon);
 
                             RectangleF rect_Desc = rect;
