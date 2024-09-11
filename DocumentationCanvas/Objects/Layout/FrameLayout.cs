@@ -15,6 +15,18 @@ namespace DocumentationCanvas.Objects.Layout
                     item.IsValid = IsValid;
             };
 
+            Attributes.MouseMove += (sender, e) =>
+            {
+                foreach (IDocumentationObject item in Items)
+                    item.Attributes.OnMouseMove(e);
+            };
+
+            Attributes.MouseDown += (sender, e) =>
+            {
+                foreach (IDocumentationObject item in Items)
+                    item.Attributes.OnMouseDown(e);
+            };
+
             Attributes.MouseUp += (sender, e) =>
             {
                 foreach (IDocumentationObject item in Items)

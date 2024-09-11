@@ -4,21 +4,18 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class RichTextAttributes : ContentWithExtensionAttributes<RichText>
     {
-        private string m_Html;
-
-        public RichTextAttributes(RichText owner, string htmlBody) : base(owner)
+        public RichTextAttributes(RichText owner) : base(owner)
         {
-            m_Html = htmlBody;
         }
 
-        private void DisplayHtml(object sender, Canvas_MouseEventArg e)
+        protected override void Expand(object sender, Canvas_MouseEventArg e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && Bounds.Contains(e.CanvasLocation))
             {
                 Label label = new Label { Text = Owner.ShortDescription };
 
                 WebView webBrowser = new WebView();
-                webBrowser.LoadHtml(m_Html);
+                webBrowser.LoadHtml(Owner.Html);
 
                 DynamicLayout layout = new DynamicLayout
                 {

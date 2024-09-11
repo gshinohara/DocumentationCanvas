@@ -4,16 +4,16 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class RichText : ContentWithExtension
     {
-        private string m_Html;
+        public string Html { get; }
 
         public RichText(FrameLayout obj, string shortDescription, string htmlBody) : base(obj, shortDescription)
         {
-            m_Html = htmlBody;
+            Html = htmlBody;
         }
 
         protected override void CreateAttributes()
         {
-            Attributes = new RichTextAttributes(this, m_Html);
+            Attributes = new RichTextAttributes(this);
         }
     }
 }

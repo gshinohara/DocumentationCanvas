@@ -3,6 +3,7 @@ using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace DocumentationCanvas.Objects.Layout
 {
@@ -12,7 +13,7 @@ namespace DocumentationCanvas.Objects.Layout
 
         public SizeF RelativeLocation { get; set; } = SizeF.Empty;
 
-        public Color Color { get; set; } = Color.FromArgb(200, Color.White);
+        private Color Color { get; set; } = Color.FromArgb(200, Color.White);
 
         public override RectangleF Bounds
         {
@@ -26,6 +27,23 @@ namespace DocumentationCanvas.Objects.Layout
 
         public ControlButtonAttributes(ControlButton button) : base(button)
         {
+            MouseDown += HighlightOnDown;
+            MouseUp += HighlightOnUp;
+        }
+
+        private void HighlightOnDown(object sender, Canvas_MouseEventArg e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Color = Color.FromArgb(Color.A, Color.DarkGray);
+                e.Canvas.Refresh();
+            }
+        }
+
+        private void HighlightOnUp(object sender, Canvas_MouseEventArg e)
+        {
+            Color = Color.FromArgb(Color.A, Color.White);
+            e.Canvas.Refresh();
         }
 
         protected override void Render(GH_Canvas canvas)

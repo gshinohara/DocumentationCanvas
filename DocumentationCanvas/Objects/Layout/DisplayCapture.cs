@@ -5,16 +5,16 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class DisplayCapture : ContentWithExtension
     {
-        private Image m_Image;
+        public Image Image { get; }
 
         public DisplayCapture(FrameLayout obj, string shortDescription, Image image) : base(obj, shortDescription)
         {
-            m_Image = image;
+            Image = image;
         }
 
         protected override void CreateAttributes()
         {
-            Attributes = new DisplayCaptureAttributes(this, m_Image);
+            Attributes = new DisplayCaptureAttributes(this);
         }
     }
 }

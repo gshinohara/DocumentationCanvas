@@ -1,4 +1,5 @@
 ﻿using Grasshopper.Kernel;
+using System.Windows.Forms;
 
 namespace DocumentationCanvas.Objects
 {
@@ -13,9 +14,22 @@ namespace DocumentationCanvas.Objects
             ActivationButton = new ActivationButton(this);
             AttatchedFrame = new AttatchedFrame(this);
 
+            Attributes.MouseMove += (s, e) =>
+            {
+                ActivationButton.Attributes.OnMouseMove(e);
+                AttatchedFrame.Attributes.OnMouseMove(e);
+            };
+
+            Attributes.MouseDown += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Left)
+                    ActivationButton.Attributes.OnMouseDown(e);
+                AttatchedFrame.Attributes.OnMouseDown(e);
+            };
+
             Attributes.MouseUp += (s, e) =>
             {
-                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                if (e.Button == MouseButtons.Left)
                     ActivationButton.Attributes.OnMouseUp(e);
                 AttatchedFrame.Attributes.OnMouseUp(e);
             };
@@ -35,7 +49,6 @@ namespace DocumentationCanvas.Objects
             PostValidityChanged += () =>
             {
                 ActivationButton.IsValid = IsValid;
-                AttatchedFrame.IsValid = IsValid;
             };
         }
 

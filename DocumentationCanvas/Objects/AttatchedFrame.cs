@@ -85,6 +85,18 @@ namespace DocumentationCanvas.Objects
                 ControlPanel.Attributes.ExpirePreview(canvas);
             };
 
+            Attributes.MouseMove += (s, e) =>
+            {
+                TimeLine.Attributes.OnMouseMove(e);
+                ControlPanel.Attributes.OnMouseMove(e);
+            };
+
+            Attributes.MouseDown += (s, e) =>
+            {
+                TimeLine.Attributes.OnMouseDown(e);
+                ControlPanel.Attributes.OnMouseDown(e);
+            };
+
             Attributes.MouseUp += (s, e) =>
             {
                 TimeLine.Attributes.OnMouseUp(e);

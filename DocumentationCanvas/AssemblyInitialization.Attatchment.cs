@@ -38,6 +38,18 @@ namespace DocumentationCanvas
                     attatchment.Attributes.ExpirePreview(sender);
             };
 
+            canvas.MouseMove += (sender, e) =>
+            {
+                foreach (AttatchmentObject attatchment in m_AttatchmentObjects)
+                    attatchment.Attributes.OnMouseMove(new Canvas_MouseEventArg(e, canvas));
+            };
+
+            canvas.MouseDown += (sender, e) =>
+            {
+                foreach (AttatchmentObject attatchment in m_AttatchmentObjects)
+                    attatchment.Attributes.OnMouseDown(new Canvas_MouseEventArg(e, canvas));
+            };
+
             canvas.MouseUp += (sender, e) =>
             {
                 foreach (AttatchmentObject attatchment in m_AttatchmentObjects)

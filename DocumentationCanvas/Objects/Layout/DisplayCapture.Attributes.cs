@@ -5,20 +5,17 @@ namespace DocumentationCanvas.Objects.Layout
 {
     internal class DisplayCaptureAttributes : ContentWithExtensionAttributes<DisplayCapture>
     {
-        private Image m_Image;
-
-        public DisplayCaptureAttributes(DisplayCapture owner, Image image) : base(owner)
+        public DisplayCaptureAttributes(DisplayCapture owner) : base(owner)
         {
-            m_Image = image;
         }
 
-        private void DisplayImage(object sender, Canvas_MouseEventArg e)
+        protected override void Expand(object sender, Canvas_MouseEventArg e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && Bounds.Contains(e.CanvasLocation))
             {
                 Label label = new Label { Text = Owner.ShortDescription };
 
-                ImageView imageView = new ImageView { Image = m_Image };
+                ImageView imageView = new ImageView { Image = Owner.Image };
 
                 DynamicLayout layout = new DynamicLayout
                 {
