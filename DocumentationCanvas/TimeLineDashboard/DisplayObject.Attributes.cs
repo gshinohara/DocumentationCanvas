@@ -1,7 +1,9 @@
-﻿using CustomGrip.Sources;
+﻿using CustomGrip.Grips;
+using CustomGrip.Sources;
 using Grasshopper.GUI.Canvas;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace DocumentationCanvas.TimeLineDashboard
 {
@@ -42,8 +44,20 @@ namespace DocumentationCanvas.TimeLineDashboard
             switch (channel)
             {
                 case GH_CanvasChannel.Objects:
-                    GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 2);
+                    GraphicsPath graphicsPath = GH_CapsuleRenderEngine.CreateRoundedRectangle(Bounds, 3);
+                    graphics.FillPath(new SolidBrush(Color.Gray), graphicsPath);
                     graphics.DrawPath(new Pen(Color.Black), graphicsPath);
+
+                    foreach (Grip grip in MyInputGrips)
+                    {
+                        if (grip == MyInputGrips.FirstOrDefault())
+                            continue;
+                        PointF[] points = { new PointF(grip.Position.X - Bounds.Width / MyInputGrips.Count / 2, Bounds.Bottom), new PointF(grip.Position.X - Bounds.Width / MyInputGrips.Count / 2, Bounds.Top) };
+                        byte[] bytes = { (byte)PathPointType.Line, (byte)PathPointType.Line };
+                        GraphicsPath straight = new GraphicsPath(points, bytes);
+                        graphics.DrawPath(new Pen(Color.Black), straight);
+                    }
+
                     break;
             }
         }
