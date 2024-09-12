@@ -1,5 +1,6 @@
 ﻿using CustomGrip.Grips;
 using DocumentationCanvas.TimeLineDashboard;
+using Grasshopper;
 using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
@@ -10,9 +11,15 @@ using System.Linq;
 
 namespace DocumentationCanvas
 {
-    public partial class AssemblyInitialization
+    public class SetUpTimeLineDashboard : GH_AssemblyPriority
     {
-        private void SetUpTimeLineDashboard(GH_Canvas canvas)
+        public override GH_LoadingInstruction PriorityLoad()
+        {
+            Instances.CanvasCreated += SetUp;
+            return GH_LoadingInstruction.Proceed;
+        }
+
+        private void SetUp(GH_Canvas canvas)
         {
             Action<RectangleF, string> draw = (rect, text) =>
             {
