@@ -18,7 +18,12 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="AssemblyPriority\" />
   </ItemGroup>
 
 </Project>

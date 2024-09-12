@@ -1,5 +1,6 @@
 ﻿using DocumentationCanvas.Objects;
 using DocumentationCanvas.TimeLineDashboard;
+using Grasshopper;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
@@ -8,11 +9,18 @@ using System.Linq;
 
 namespace DocumentationCanvas
 {
-    public partial class AssemblyInitialization : GH_AssemblyPriority
+    public class SetUpAttatchmentObject : GH_AssemblyPriority
     {
         private List<AttatchmentObject> m_AttatchmentObjects = new List<AttatchmentObject>();
 
-        private void AttatchmentSetUp(GH_Canvas canvas)
+        public override GH_LoadingInstruction PriorityLoad()
+        {
+            Instances.CanvasCreated += SetUp;
+
+            return GH_LoadingInstruction.Proceed;
+        }
+
+        private void SetUp(GH_Canvas canvas)
         {
             canvas.DocumentChanged += (sender, e) =>
             {
@@ -100,6 +108,7 @@ namespace DocumentationCanvas
             {
                 case GH_Scribble _:
                 case GH_Markup _:
+                case DisplayObject _:
                     return false;
             }
             return true;
