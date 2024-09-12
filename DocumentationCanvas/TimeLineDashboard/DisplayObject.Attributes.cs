@@ -4,6 +4,7 @@ using DocumentationCanvas.Objects.Layout;
 using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -61,38 +62,49 @@ namespace DocumentationCanvas.TimeLineDashboard
                         GraphicsPath straight = new GraphicsPath(points, bytes);
                         graphics.DrawPath(new Pen(Color.Black), straight);
                     }
-
+                    
+                    List<dynamic> contents_with_grip = new List<dynamic>();
                     foreach (Grip grip in MyInputGrips)
                     {
-                        List<Content> contents = new List<Content>();
                         foreach (DisplayTarget target in (grip as DisplayObjectInputGrip).TargetObjects)
                         {
                             foreach (var item in target.Owner.AttatchedFrame.TimeLine.Items)
                             {
                                 if (item is Content content)
-                                    contents.Add(content);
+                                    contents_with_grip.Add(new { grip = grip, content = content });
                             }
                         }
+                    }
+                    contents_with_grip.Sort((a, b) => ((a.content as Content).TimeStamp - (b.content as Content).TimeStamp).Milliseconds);
 
-                        contents.Sort((a, b) => (a.TimeStamp - b.TimeStamp).Milliseconds);
-
-                        for (int i = 0; i < contents.Count; i++)
+                    int count = 0;
+                    foreach (var group in contents_with_grip.GroupBy(g => g.content))
+                    {
+                        foreach (Grip grip in MyInputGrips)
                         {
-                            RectangleF rect = new RectangleF { Width = Bounds.Width / MyInputGrips.Count, Height = 20, Location = grip.Position };
-                            rect.Y -= Bounds.Height - 5 - (rect.Height + 5) * i;
+                            RectangleF rect = new RectangleF { Width = Bounds.Width / MyInputGrips.Count, Height = 17, Location = grip.Position };
+                            rect.Y -= Bounds.Height - 5 - (rect.Height + 5) * count;
                             rect.X -= rect.Width / 2;
                             rect.Inflate(-5, 0);
-                            graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
 
                             RectangleF rect_Icon = rect;
                             rect_Icon.Width = rect.Height;
-                            graphics.DrawImage(contents[i].LinkedObject.LinkedObject.LinkedObject.LinkedObject.Icon_24x24, rect_Icon);
 
                             RectangleF rect_Desc = rect;
                             rect_Desc.Width -= rect_Icon.Width;
                             rect_Desc.X = rect_Icon.Right;
-                            graphics.DrawString(contents[i].ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_Desc, GH_TextRenderingConstants.NearCenter);
+
+                            rect_Icon.Inflate(-1, -1);
+
+                            if (group.Any(g => g.grip == grip))
+                            {
+                                graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
+                                graphics.DrawImage(group.Key.LinkedObject.LinkedObject.LinkedObject.LinkedObject.Icon_24x24, rect_Icon);
+                                graphics.DrawString(group.Key.ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_Desc, GH_TextRenderingConstants.NearCenter);
+                            }
                         }
+
+                        count ++;
                     }
 
                     break;
