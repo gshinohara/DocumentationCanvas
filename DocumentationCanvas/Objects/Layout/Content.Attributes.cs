@@ -12,18 +12,8 @@ namespace DocumentationCanvas.Objects.Layout
         int GetPosition();
     }
 
-    internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T>, IContentAttributes where T :Content
+    internal abstract class ContentAttributes<T> : DocumentationObjectAttributes<T>, IContentAttributes where T : Content
     {
-        public override bool IsVisible
-        {
-            get
-            {
-                IsVisible = GetPosition() >= 0 && GetPosition() < 5;
-                return base.IsVisible;
-            }
-            set => base.IsVisible = value;
-        }
-
         public override RectangleF Bounds
         {
             get
@@ -44,10 +34,11 @@ namespace DocumentationCanvas.Objects.Layout
         {
             int index = Owner.LinkedObject.Items.IndexOf(Owner);
             int relative = ((Owner.LinkedObject.Tag is int) ? (int)Owner.LinkedObject.Tag : 0);
-            return index - relative;
+            int position = index - relative;
+            return position;
         }
 
-        public override void Render(GH_Canvas canvas)
+        protected override void Render(GH_Canvas canvas)
         {
             RectangleF rect_Index = Bounds;
             rect_Index.Width = Bounds.Height;

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace DocumentationCanvas
 {
-    internal class Canvas_MouseEventArg : MouseEventArgs
+    public class Canvas_MouseEventArg : MouseEventArgs
     {
         public GH_Canvas Canvas { get; set; }
 

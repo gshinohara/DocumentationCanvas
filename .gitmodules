@@ -1,0 +1,3 @@
+[submodule "CustomGrip"]
+	path = CustomGrip
+	url = https://github.com/gshinohara/CustomGrip.git

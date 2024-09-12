@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DocumentationCanvas
 {
-    public partial class AssemblyInitialization : GH_AssemblyPriority
+    public class SetUpLoadSelector : GH_AssemblyPriority
     {
         private class LoadSelector : Dialog<GH_LoadingInstruction>
         {
@@ -74,16 +74,7 @@ namespace DocumentationCanvas
         public override GH_LoadingInstruction PriorityLoad()
         {
             LoadSelector form = new LoadSelector();
-            GH_LoadingInstruction result = form.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow);
-
-            if (result == GH_LoadingInstruction.Proceed)
-            {
-                Instances.CanvasCreated += AttatchmentSetUp;
-                Instances.CanvasCreated += SetUpControlButton;
-                Instances.CanvasCreated += SetUpContentWithExtension;
-            }
-
-            return result;
+            return form.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow);
         }
     }
 }
