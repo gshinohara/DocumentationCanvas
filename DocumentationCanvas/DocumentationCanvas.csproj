@@ -20,5 +20,9 @@
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="AssemblyPriority\" />
+  </ItemGroup>
 
 </Project>
