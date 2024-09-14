@@ -1,4 +1,5 @@
 ﻿using DocumentationCanvas.Objects;
+using DocumentationCanvas.Objects.Layout;
 using DocumentationCanvas.TimeLineDashboard;
 using Grasshopper;
 using Grasshopper.GUI.Canvas;
@@ -6,6 +7,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
 using System.Collections.Generic;
 using System.Linq;
+using WireEventImplementor;
 
 namespace DocumentationCanvas
 {
@@ -92,6 +94,20 @@ namespace DocumentationCanvas
             {
                 foreach (AttatchmentObject attatchment in m_AttatchmentObjects)
                     attatchment.Attributes.OnMouseUp(new Canvas_MouseEventArg(e, canvas));
+            };
+
+            WireInstances.PostWired += status =>
+            {
+                foreach (AttatchmentObject attatchmentObject in m_AttatchmentObjects)
+                {
+                    if (attatchmentObject.LinkedObject == status.SubsequentSideParam.Attributes.GetTopLevel.DocObject)
+                    {
+                        AttatchedFrame frame = attatchmentObject.AttatchedFrame;
+                        Note wireNote = new Note(frame.TimeLine, "Wired") { IsValid = frame.IsValid };
+                        frame.TimeLine.Items.Add(wireNote);
+                        return;
+                    }
+                }
             };
         }
 
