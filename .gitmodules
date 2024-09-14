@@ -1,6 +1,6 @@
 [submodule "CustomGrip"]
-	path = CustomGrip
+	path = DocumentationCanvas/CustomGrip
 	url = https://github.com/gshinohara/CustomGrip.git
 [submodule "WireEventImplementor"]
-	path = WireEventImplementor
+	path = DocumentationCanvas/WireEventImplementor
 	url = https://github.com/gshinohara/WireEventImplementor.git

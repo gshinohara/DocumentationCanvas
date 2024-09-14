@@ -7,6 +7,15 @@
     <Description>Description of DocumentationCanvas</Description>
     <TargetExt>.gha</TargetExt>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="CustomGrip\**" />
+    <Compile Remove="WireEventImplementor\**" />
+    <EmbeddedResource Remove="CustomGrip\**" />
+    <EmbeddedResource Remove="WireEventImplementor\**" />
+    <None Remove="CustomGrip\**" />
+    <None Remove="WireEventImplementor\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
@@ -16,6 +25,8 @@
   <ItemGroup>
     <ProjectReference Include="..\CustomGrip\CustomGrip\CustomGrip.csproj" />
     <ProjectReference Include="..\WireEventImplementor\WireEventImplementor\WireEventImplementor.csproj" />
+    <ProjectReference Include="CustomGrip\CustomGrip\CustomGrip.csproj" />
+    <ProjectReference Include="WireEventImplementor\WireEventImplementor\WireEventImplementor.csproj" />
   </ItemGroup>
   
   <ItemGroup>

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentationCanvas", "DocumentationCanvas.csproj", "{1C5EAF01-7D6E-4EB9-B606-6177DB71BF8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomGrip", "..\CustomGrip\CustomGrip\CustomGrip.csproj", "{83D1C286-77D2-4DF2-B7EA-7DA4C09D2778}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomGrip", "CustomGrip\CustomGrip\CustomGrip.csproj", "{83D1C286-77D2-4DF2-B7EA-7DA4C09D2778}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireEventImplementor", "..\WireEventImplementor\WireEventImplementor\WireEventImplementor.csproj", "{9117DD62-C4A4-43B3-80DE-7A8B9500778F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WireEventImplementor", "WireEventImplementor\WireEventImplementor\WireEventImplementor.csproj", "{57B334B2-CA76-4DEE-B757-ADDEAB413A93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{83D1C286-77D2-4DF2-B7EA-7DA4C09D2778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83D1C286-77D2-4DF2-B7EA-7DA4C09D2778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83D1C286-77D2-4DF2-B7EA-7DA4C09D2778}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9117DD62-C4A4-43B3-80DE-7A8B9500778F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9117DD62-C4A4-43B3-80DE-7A8B9500778F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9117DD62-C4A4-43B3-80DE-7A8B9500778F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9117DD62-C4A4-43B3-80DE-7A8B9500778F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B334B2-CA76-4DEE-B757-ADDEAB413A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B334B2-CA76-4DEE-B757-ADDEAB413A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B334B2-CA76-4DEE-B757-ADDEAB413A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B334B2-CA76-4DEE-B757-ADDEAB413A93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
