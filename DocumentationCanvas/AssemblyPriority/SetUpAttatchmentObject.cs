@@ -1,4 +1,5 @@
 ﻿using DocumentationCanvas.Objects;
+using DocumentationCanvas.Objects.Layout;
 using DocumentationCanvas.TimeLineDashboard;
 using Grasshopper;
 using Grasshopper.GUI.Canvas;
@@ -6,21 +7,15 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Special;
 using System.Collections.Generic;
 using System.Linq;
+using WireEventImplementor;
 
 namespace DocumentationCanvas
 {
-    public class SetUpAttatchmentObject : GH_AssemblyPriority
+    public class SetUpAttatchmentObject
     {
         private List<AttatchmentObject> m_AttatchmentObjects = new List<AttatchmentObject>();
 
-        public override GH_LoadingInstruction PriorityLoad()
-        {
-            Instances.CanvasCreated += SetUp;
-
-            return GH_LoadingInstruction.Proceed;
-        }
-
-        private void SetUp(GH_Canvas canvas)
+        public void Subscribe(GH_Canvas canvas)
         {
             canvas.DocumentChanged += (sender, e) =>
             {
@@ -99,6 +94,20 @@ namespace DocumentationCanvas
             {
                 foreach (AttatchmentObject attatchment in m_AttatchmentObjects)
                     attatchment.Attributes.OnMouseUp(new Canvas_MouseEventArg(e, canvas));
+            };
+
+            WireInstances.PostWired += status =>
+            {
+                foreach (AttatchmentObject attatchmentObject in m_AttatchmentObjects)
+                {
+                    if (attatchmentObject.LinkedObject == status.SubsequentSideParam.Attributes.GetTopLevel.DocObject)
+                    {
+                        AttatchedFrame frame = attatchmentObject.AttatchedFrame;
+                        WireEventContent wireNote = new WireEventContent(frame.TimeLine, status);
+                        frame.TimeLine.Items.Add(wireNote);
+                        return;
+                    }
+                }
             };
         }
 

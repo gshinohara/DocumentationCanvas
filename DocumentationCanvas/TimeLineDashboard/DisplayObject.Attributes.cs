@@ -101,6 +101,13 @@ namespace DocumentationCanvas.TimeLineDashboard
                                 graphics.DrawPath(new Pen(Color.Black, 1), GH_CapsuleRenderEngine.CreateRoundedRectangle(rect, 0));
                                 graphics.DrawImage(group.Key.LinkedObject.LinkedObject.LinkedObject.LinkedObject.Icon_24x24, rect_Icon);
                                 graphics.DrawString(group.Key.ShortDescription, GH_FontServer.Standard, new SolidBrush(Color.Black), rect_Desc, GH_TextRenderingConstants.NearCenter);
+
+                                if(group.Key is WireEventContent wireContent)
+                                {
+                                    RectangleF rect_WireIcon = rect_Icon;
+                                    rect_WireIcon.X += rect_Icon.Width + GH_FontServer.MeasureString(wireContent.ShortDescription, GH_FontServer.Standard).Width + 3;
+                                    graphics.DrawImage(wireContent.WireStatus.PreviousSideParam.Attributes.GetTopLevel.DocObject.Icon_24x24, rect_WireIcon);
+                                }
                             }
                         }
 

@@ -15,15 +15,12 @@
   
   <ItemGroup>
     <ProjectReference Include="..\CustomGrip\CustomGrip\CustomGrip.csproj" />
+    <ProjectReference Include="..\WireEventImplementor\WireEventImplementor\WireEventImplementor.csproj" />
   </ItemGroup>
   
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="AssemblyPriority\" />
   </ItemGroup>
 
 </Project>
