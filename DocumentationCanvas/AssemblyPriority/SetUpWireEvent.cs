@@ -1,33 +1,48 @@
-﻿using Grasshopper;
-using Grasshopper.Kernel;
+﻿using Grasshopper.GUI.Canvas;
+using System;
 using System.Drawing;
+using WireEventImplementor;
 
 namespace DocumentationCanvas.AssemblyPriority
 {
-    public class SetUpWireEvent : WireEventImplementor.WireAssemblyPriority
+    public class SetUpWireEvent
     {
-        public override GH_LoadingInstruction PriorityLoad()
+        private WireStatus WireStatus { get; set; }
+
+        public void Subscribe(GH_Canvas canvas)
         {
-            Instances.CanvasCreated += canvas =>
+            WireInstances.SetUp(canvas);
+
+            canvas.CanvasPaintEnd += sender =>
             {
-                canvas.CanvasPaintEnd += Canvas_CanvasPostPaintWires;
+                if (WireStatus == null)
+                    return;
+
+                Func<PointF, RectangleF> getHighlight = center =>
+                {
+                    RectangleF rect = new RectangleF { Width = 30, Height = 30, Location = center };
+                    rect.Offset(-rect.Width / 2, -rect.Height / 2);
+                    return rect;
+                }; 
+
+                canvas.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(150, Color.Orange)), getHighlight(WireStatus.PreviousSideParam.Attributes.OutputGrip));
+                canvas.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(150, Color.Red)), getHighlight(WireStatus.SubsequentSideParam.Attributes.InputGrip));
             };
 
-            return base.PriorityLoad();
-        }
+            WireInstances.Wiring += status =>
+            {
+                WireStatus = null;
+            };
 
-        private void Canvas_CanvasPostPaintWires(Grasshopper.GUI.Canvas.GH_Canvas sender)
-        {
-            if (WireTarget == null)
-                return;
+            WireInstances.PreWired += status =>
+            {
+                WireStatus = status;
+            };
 
-            PointF center = (bool)IsDragFromInput ? WireTarget.Attributes.OutputGrip : WireTarget.Attributes.InputGrip;
-
-            RectangleF rect = new RectangleF { Width = 30, Height = 30 };
-            rect.X = center.X - rect.Width / 2;
-            rect.Y = center.Y - rect.Height / 2;
-
-            sender.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, Color.Red)), rect);
+            WireInstances.PostWired += status =>
+            {
+                WireStatus = null;
+            };
         }
     }
 }
