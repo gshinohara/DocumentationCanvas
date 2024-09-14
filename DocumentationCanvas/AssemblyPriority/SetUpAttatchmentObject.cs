@@ -103,7 +103,7 @@ namespace DocumentationCanvas
                     if (attatchmentObject.LinkedObject == status.SubsequentSideParam.Attributes.GetTopLevel.DocObject)
                     {
                         AttatchedFrame frame = attatchmentObject.AttatchedFrame;
-                        Note wireNote = new Note(frame.TimeLine, "Wired") { IsValid = frame.IsValid };
+                        Note wireNote = new Note(frame.TimeLine, "Wired");
                         frame.TimeLine.Items.Add(wireNote);
                         return;
                     }

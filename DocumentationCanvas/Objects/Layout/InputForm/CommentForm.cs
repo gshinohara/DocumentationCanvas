@@ -29,7 +29,7 @@ namespace DocumentationCanvas.Objects.Layout.InputForm
             {
                 if ((bool)(sender as Button).Tag)
                 {
-                    Note note = new Note(frame.TimeLine, textBox.Text) { IsValid = frame.IsValid };
+                    Note note = new Note(frame.TimeLine, textBox.Text);
                     frame.TimeLine.Items.Add(note);
                     Instances.ActiveCanvas.Refresh();
                 }

@@ -12,6 +12,7 @@ namespace DocumentationCanvas.Objects.Layout
         {
             TimeStamp = DateTime.Now;
             ShortDescription = shortDecription;
+            IsValid = obj.LinkedObject.IsValid;
         }
     }
 }
