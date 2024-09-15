@@ -1,4 +1,5 @@
-﻿using Grasshopper.GUI.Canvas;
+﻿using DocumentationCanvas.WireGraph;
+using Grasshopper.GUI.Canvas;
 using System;
 using System.Drawing;
 using WireEventImplementor;
@@ -43,6 +44,8 @@ namespace DocumentationCanvas.AssemblyPriority
             {
                 WireStatus = null;
             };
+
+            WireInstances.PreWired += WireChecker.AlertHeavySolution;
         }
     }
 }
