@@ -1,19 +1,28 @@
 ﻿using Eto.Forms;
 using Grasshopper;
 using Grasshopper.Kernel;
+using Rhino.UI;
 using System;
 using WireEventImplementor;
 
 namespace DocumentationCanvas.WireGraph.AlertDialogue
 {
-    internal abstract class AlertBase : Dialog
+    internal abstract partial class AlertBase : Dialog
     {
         public AlertBase(WireStatus wireStatus)
         {
+            AutoSize = true;
+
             DynamicLayout layout = new DynamicLayout
             {
                 Spacing = new Eto.Drawing.Size(15, 15),
                 Padding = 15,
+            };
+
+            ImageView imageView = new ImageView
+            {
+                Image = CreateWireImage(wireStatus).ToEto(),
+                Width = 300,
             };
 
             CheckBox checkBox_WireCancel = new CheckBox
@@ -48,9 +57,10 @@ namespace DocumentationCanvas.WireGraph.AlertDialogue
                 Text = "OK",
             };
 
-            layout.AddSeparateRow(checkBox_WireCancel);
-            layout.AddSeparateRow(checkBox_Lock);
-            layout.AddSeparateRow(button_OK);
+            layout.AddSeparateRow(imageView);
+            layout.AddSeparateRow(null,checkBox_WireCancel, null, checkBox_Lock,null);
+            layout.AddSeparateRow(null, button_OK, null);
+            layout.AddSeparateRow(null);
 
             Content = layout;
         }
