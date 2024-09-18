@@ -15,8 +15,15 @@ namespace DocumentationCanvas.WireGraph.AlertDialogue
 
             DynamicLayout layout = new DynamicLayout
             {
+                Width = 400,
                 Spacing = new Eto.Drawing.Size(15, 15),
                 Padding = 15,
+            };
+
+            Label label = new Label
+            {
+                Text = "Check your wiring. It can be dangerous.",
+                Wrap = WrapMode.Word,
             };
 
             ImageView imageView = new ImageView
@@ -45,7 +52,20 @@ namespace DocumentationCanvas.WireGraph.AlertDialogue
                     WireInstances.OnPostWired(wireStatus);
                 else
                 {
-                    wireStatus.SubsequentSideParam.AddSource(wireStatus.PreviousSideParam);
+                    switch (wireStatus.LinkMode)
+                    {
+                        case LinkMode.Replace:
+                            wireStatus.SubsequentSideParam.RemoveAllSources();
+                            wireStatus.SubsequentSideParam.AddSource(wireStatus.PreviousSideParam);
+                            break;
+                        case LinkMode.Add:
+                            wireStatus.SubsequentSideParam.AddSource(wireStatus.PreviousSideParam);
+                            break;
+                        case LinkMode.Remove:
+                            wireStatus.SubsequentSideParam.RemoveSource(wireStatus.PreviousSideParam);
+                            break;
+                    }
+                 
                     WireInstances.OnPostWired(wireStatus);
                 }
 
@@ -57,6 +77,7 @@ namespace DocumentationCanvas.WireGraph.AlertDialogue
                 Text = "OK",
             };
 
+            layout.AddSeparateRow(label);
             layout.AddSeparateRow(imageView);
             layout.AddSeparateRow(null,checkBox_WireCancel, null, checkBox_Lock,null);
             layout.AddSeparateRow(null, button_OK, null);
